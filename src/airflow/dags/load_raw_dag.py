@@ -38,7 +38,21 @@ create_raw_datalake = CreateS3BucketOperator(
 upload_trip_data = UploadFileS3Operator(
 	task_id='upload_trip_data',
 	bucket_name=raw_datalake_bucket_name,
-	path='/opt/bitnami/dataset',
+	path='/opt/bitnami/dataset/trip_data',
+	dag=dag
+	)
+
+upload_station_data = UploadFileS3Operator(
+	task_id='upload_station_data',
+	bucket_name=raw_datalake_bucket_name,
+	path='/opt/bitnami/dataset/station_data',
+	dag=dag
+	)
+
+upload_region_data = UploadFileS3Operator(
+	task_id='upload_region_data',
+	bucket_name=raw_datalake_bucket_name,
+	path='/opt/bitnami/dataset/region_data',
 	dag=dag
 	)
 

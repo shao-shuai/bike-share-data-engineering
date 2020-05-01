@@ -6,6 +6,23 @@ This is a capstone project for the Udacity DataEngineering Nanodegree. The purpo
 
 
 
+#### Datasets
+
+- [Bay Wheel trip history data](https://www.lyft.com/bikes/bay-wheels/system-data)
+  - bike share trip data of Bay Wheel from January 2019 to March 2020, totally 3411990 rows
+- [Bay Wheel station data](https://www.lyft.com/bikes/bay-wheels/system-data)
+  - 454 rows
+- [Bay wheel region data](https://www.lyft.com/bikes/bay-wheels/system-data)
+  - 6 rows
+- [Weather data](https://api.meteostat.net/#history), we need to retrieve weather from the following 5 weather stations
+  - 74506
+  - KSJC0
+  - 72494
+  - 72493
+  - KRHV0
+
+
+
 ## Data Model
 
 Schema
