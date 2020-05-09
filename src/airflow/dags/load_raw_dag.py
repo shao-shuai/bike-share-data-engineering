@@ -18,7 +18,7 @@ default_args = {
     'email_on_retry': False
 }
 
-raw_datalake_bucket_name = 'shuaishao-udacity'
+raw_datalake_bucket_name = 'shuaishao-raw-datalake'
 
 dag = DAG('raw_datalake_dag',
           default_args=default_args,
@@ -56,9 +56,22 @@ upload_region_data = UploadFileS3Operator(
 	dag=dag
 	)
 
+upload_weather_data = UploadFileS3Operator(
+	task_id='upload_weather_data',
+	bucket_name=raw_datalake_bucket_name,
+	path='/opt/bitnami/dataset/weather_data',
+	dag=dag
+	)
+
 end_operator = DummyOperator(task_id='Stop_execution', dag=dag)
 
 # define dependency
 start_operator >> create_raw_datalake
 create_raw_datalake >> upload_trip_data
+create_raw_datalake >> upload_station_data
+create_raw_datalake >> upload_region_data
+create_raw_datalake >> upload_weather_data
 upload_trip_data >> end_operator
+upload_station_data >> end_operator
+upload_region_data >> end_operator
+upload_weather_data >> end_operator

@@ -8,7 +8,6 @@ import configparser
 import sys
 import os
 from datetime import datetime
-from opencage.geocoder import OpenCageGeocode
 from pprint import pprint
 import pandas as pd
 import random
@@ -55,7 +54,7 @@ def main():
 
 	station['weather_station_id'] = weather_stations
 
-	station.to_csv("../../dataset/station_data/station_data1.csv")
+	station.to_csv("../../dataset/station_data/station_data1.csv", index=False)
 	
 if __name__ =="__main__":
 	main()

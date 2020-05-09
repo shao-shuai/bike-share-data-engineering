@@ -26,14 +26,14 @@
         "Name": "Master nodes",
         "Market": "ON_DEMAND",
         "InstanceRole": "MASTER",
-        "InstanceType": "m5.xlarge",
+        "InstanceType": "m4.large",
         "InstanceCount": 1
       },
       {
         "Name": "Slave nodes",
         "Market": "ON_DEMAND",
         "InstanceRole": "CORE",
-        "InstanceType": "m5.xlarge",
+        "InstanceType": "m4.large",
         "InstanceCount": 4
       }
     ],
