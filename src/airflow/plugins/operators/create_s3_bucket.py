@@ -20,6 +20,7 @@ class CreateS3BucketOperator(BaseOperator):
 		self.region_name = region_name
 
 	def execute(self, context):
-		s3_hook = S3Hook(self.aws_conn_id)
-		s3_hook.create_bucket(bucket_name=self.bucket_name, region_name=self.region_name)
-		self.log.info(f'Created {self.bucket_name} bucket in {self.region_name} region.')
+		pass
+		# s3_hook = S3Hook(self.aws_conn_id)
+		# s3_hook.create_bucket(bucket_name=self.bucket_name, region_name=self.region_name)
+		# self.log.info(f'Created {self.bucket_name} bucket in {self.region_name} region.')

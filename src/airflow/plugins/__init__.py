@@ -10,6 +10,6 @@ class UdacityPlugin(AirflowPlugin):
 	name = "udacity_plugin"
 	operators = [
     operators.CreateS3BucketOperator,
-    operators.UploadFileS3Operator
-    # operators.CheckS3FileCount
+    operators.UploadFileS3Operator,
+    operators.CheckS3FileCount
     ]

@@ -14,7 +14,7 @@ This is a capstone project for the Udacity DataEngineering Nanodegree. The purpo
   - 454 rows
 - [Bay wheel region data](https://www.lyft.com/bikes/bay-wheels/system-data)
   - 6 rows
-- [Weather data](https://api.meteostat.net/#history), we need to retrieve weather from the following 5 weather stations
+- [Weather data](https://api.meteostat.net/#history)
   - over 1000 rows
 
 #### Goal
@@ -53,7 +53,7 @@ The station dataset includes unnecessary columns and will be removed.
 
 ##### weather_data
 
-The weather dataset is acquired with [API](https://api.meteostat.net/#history.
+The weather dataset is acquired with [API](https://api.meteostat.net/#history)
 
 As the stations distribute across different cities in San Francisco Bay Area, we need to get the weather information of all these citites. We gengerated the weather dataset with the following steps:
 
@@ -85,7 +85,7 @@ We created 2 separate buckets on AWS S3 for storing raw data and optimized data.
 
 1. trips
    - duration(sec): int; duration of a trip;
-   - start_time; datetime; start time of a trip
+   - start_time; datetime; start time of a trip; Primary Key
    - end_time; datetime; end time of a trip
    - start_station_id; int; id of start station; Foreign Key
    - end_station_id; int; id of end station; Foreign Key
@@ -145,5 +145,15 @@ We created 2 separate buckets on AWS S3 for storing raw data and optimized data.
 The pipelien include two DAGs.
 
 
+
+1. The first DAG is for creating buckets for storing raw data, python script, optimized data, and checking data quality.
+
+![](/Users/shuaishao/udacity/bike-share-data-engineering/images/load_raw_dag.png)
+
+
+
+2. The second DAG is for running ETL on raw data and generated optimized data, and cheking data quality of optimized data.
+
+![](/Users/shuaishao/udacity/bike-share-data-engineering/images/bike_data_etl_dag.png)
 
 ## User case
