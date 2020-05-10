@@ -185,6 +185,8 @@ pip install -r requirements.txt  # install requirements
 
 [dataset link](https://drive.google.com/open?id=1YgopJeEfGrMlxLWe9pBDvSTn_NsVHjFc)
 
+create a directory called `dataset` in this repo.
+
 ##### Step 4: Start Airflow Container
 
 ```
