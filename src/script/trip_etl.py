@@ -57,13 +57,13 @@ def process_trip_data(spark, input_data, output_data):
 	end_time_table.show(5)   
 	
 	# Write trip talbe
-	# df.write.partitionBy(['start_station_id']).parquet(os.path.join(output_data, 'trips'), 'overwrite')     
+	df.write.partitionBy(['start_station_id']).parquet(os.path.join(output_data, 'trips'), 'overwrite')     
 
 	# Write start time table
-	# start_time_table.write.partitionBy(['start_year', 'start_month']).parquet(os.path.join(output_data, 'start_time'), 'overwrite')
+	start_time_table.write.partitionBy(['start_year', 'start_month']).parquet(os.path.join(output_data, 'start_time'), 'overwrite')
 
 	# Write end time table
-	# end_time_table.write.partitionBy(['end_year', 'end_month']).parquet(os.path.join(output_data, 'end_time'), 'overwrite')
+	end_time_table.write.partitionBy(['end_year', 'end_month']).parquet(os.path.join(output_data, 'end_time'), 'overwrite')
 
 def main():
 	if len(sys.argv) == 3:
