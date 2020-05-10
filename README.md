@@ -1,6 +1,6 @@
 # bike-share-data-engineering
 
-## Introduction
+### Introduction
 
 This is a capstone project for the Udacity DataEngineering Nanodegree. The purpose of the data engineering capstone project is to give you a chance to combine everything learned throughout the program.
 
@@ -37,7 +37,7 @@ The last piece is Apache Airflow, which is used to connect all the component of 
 
 
 
-## Data Quality
+### Data Quality
 
 ##### trip_data
 
@@ -79,7 +79,7 @@ We created 2 separate buckets on AWS S3 for storing raw data and optimized data.
 2. **shuaishao-bikeshare-datalake**
    - This bucket is used to stored optimized datasets, we are using star schema with 1 fact table and 5 dimension table
 
-## Schema
+#### Schema
 
 **Fact table**
 
@@ -140,7 +140,7 @@ We created 2 separate buckets on AWS S3 for storing raw data and optimized data.
    - region_id; int; Primary Key
    - region_name; string
 
-## Data Pipeline
+#### Data Pipeline
 
 The pipelien include two DAGs.
 
@@ -148,12 +148,93 @@ The pipelien include two DAGs.
 
 1. The first DAG is for creating buckets for storing raw data, python script, optimized data, and checking data quality.
 
-![](/Users/shuaishao/udacity/bike-share-data-engineering/images/load_raw_dag.png)
+![](./images/load_raw_dag.png)
 
 
 
 2. The second DAG is for running ETL on raw data and generated optimized data, and cheking data quality of optimized data.
 
-![](/Users/shuaishao/udacity/bike-share-data-engineering/images/bike_data_etl_dag.png)
+![](./images/bike_data_etl_dag.png)
 
-## User case
+### Getting started
+
+#### Use cases
+
+- The optimized dataset can be queried by using Amazon Athena or Apache Spark.
+  - Be able to know cycling route by popularity to help maintenance. For example, if we know that the route from A station to B station is the most popular route, we would consider:
+    - Increasing bike at A station (increasing capacity)
+    - Deploying more stations around A station
+- The optimized data can also be fetched and written into a database (e.g., MySQL, PostgreSQL, Neo4j)
+  - The dataset could be written into Neo4j for visualizing cycling route (e.g., stations are nodes and routes are edges)
+
+##### Step 1: Clone repository to local machine
+
+```shell
+git clone https://github.com/shao-shuai/bike-share-data-engineering.git
+```
+
+##### Step2: Create python virtual environment
+
+```shell
+python3 -m venv venv             # create virtualenv
+source venv/bin/activate         # activate virtualenv
+pip install -r requirements.txt  # install requirements
+```
+
+##### Step 3: Extract the dataset
+
+##### Step 4: Start Airflow Container
+
+```
+docker-compose up
+
+```
+
+##### Step 5: Start Ariflow UI
+
+Visit the path [http://localhost:8080](http://localhost:8080/) in your browser. Login to Airflow.
+
+Username: user
+
+Password: password
+
+##### Step 6: Configure Airflow connections
+
+1. Click connections under Admin tag
+
+![](./images/connections.png)
+
+2. Select create under connections
+3. On the create connection page, enter the following values:
+
+- Conn Id: Enter aws_credentials.
+- Conn Type: Enter Amazon Web Services.
+- Login: Enter your Access key ID from the IAM User credentials.
+- Password: Enter your Secret access key from the IAM User credentials.
+- Extra: Add the default region name. { "region_name": "us-west-2" }
+
+##### Step 7: Change default EMR config in Airflow
+
+1. Click on the Admin tab and select Connections.
+2. Select the 'emr_default' connection
+3. Copy everything from `src/helper/emr_default.json` and paste into the field 'Extra'
+4. Click save
+
+##### Step 8: Start raw_datalake_dag
+
+This DAG creates all buckets and uploads raw data. The DAG takes about 10 minutes.
+
+##### Step 9: Start bike_data_etl_dag
+
+This pipeline extracts the data from raw data bucket, transforms it with Spark cluster on EMR and writes it back to S3. The pipeline takes about 1 hour.
+
+### Addressing Other Scenarios
+
+1. The data was increased by 100x
+   - Currently we are using m4large for EC2 instances, if the data increases by 100x, I would conside using m5large or m5xlarge.
+   - Now we are using 3 workers, adding more workers would be another option.
+   - Currently Airflow is running on a single container on my laptop. In a production environment, deploying Airflow on a Kubernetes coordinated cluster would be a better solution.
+2. The pipelines would be run on a daily basis by 7 am every day.
+   - We would be able to doing by scheduling Airflow
+3. The database needed to be accessed by 100+ people.
+   - If the performance is down with more users, we could conside using Redshift.
