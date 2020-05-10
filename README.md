@@ -181,7 +181,9 @@ source venv/bin/activate         # activate virtualenv
 pip install -r requirements.txt  # install requirements
 ```
 
-##### Step 3: Extract the dataset
+##### Step 3: Download the dataset
+
+[dataset link](https://drive.google.com/open?id=1YgopJeEfGrMlxLWe9pBDvSTn_NsVHjFc)
 
 ##### Step 4: Start Airflow Container
 
@@ -238,3 +240,10 @@ This pipeline extracts the data from raw data bucket, transforms it with Spark c
    - We would be able to doing by scheduling Airflow
 3. The database needed to be accessed by 100+ people.
    - If the performance is down with more users, we could conside using Redshift.
+
+
+
+### Special thanks
+
+Thanks [brfulu](https://github.com/brfulu/us-accidents-data-engineering), I learned a lot from your repo including code readability and well organized documentation.
+
