@@ -19,21 +19,21 @@ This is a capstone project for the Udacity DataEngineering Nanodegree. The purpo
 
 #### Goal
 
-The goal of this project is to create a data pipeline for cleaning, transforming and loading bike share data from Bay Wheel. The users would be able to bike traffic given the knowledge of station information, time information, region information and weather information.
+The goal of this project is to create a data pipeline for cleaning, transforming and loading bike share data from Bay Wheel. The users would be able to analyze bike traffic given the knowledge of station information, time information, region information and weather information.
 
 
 
 #### Technologies
 
-The raw dakelake which stores raw data is created on AWS S3. S3 is known for its easy-to-use management features so anyone can organize data and configure finely-tuned access controls to meet specific business, organizational, and compliance requirements.
+We created 3 buckets on AWS S3 for data storage. S3 is known for its easy-to-use management features so anyone can organize data and configure finely-tuned access controls to meet specific business, organizational, and compliance requirements.
 
 
 
-Apache Spark is used for our ETL pipeline. I spinned up a Spark cluster on EMR. Spark is a memory-based dributed computation architeture.
+Apache Spark is used for our ETL pipeline. We spinned up a Spark cluster on EMR. Spark is a memory-based dributed computation architeture.
 
 
 
-The last piece is Apache Airflow, which is used to connect all the component of our pipeline and orchestrate it. Airflow has an built-in UI and we are able to tract the whole processing and troubshoot with the logs of the pipeline.
+The last piece is Apache Airflow, which is used to connect all the components of our pipeline and orchestrate it. Airflow has an built-in UI and we are able to track the whole process and troubshoot with the logs of the pipeline.
 
 
 
@@ -41,7 +41,7 @@ The last piece is Apache Airflow, which is used to connect all the component of 
 
 ##### trip_data
 
-The trip dataset includes more columns than we need. columns such as, start_station_name, start_station_longitude, and start_station_latitude would be removed as station dataset already has these information. 
+The trip dataset includes more columns than we need. Columns such as, start_station_name, start_station_longitude, and start_station_latitude would be removed as station dataset already has these information. Only start_station_id and end_station_id are kept. We can join trips table and stations table when we need detailed station information.
 
 
 
@@ -53,7 +53,7 @@ The station dataset includes unnecessary columns and will be removed.
 
 ##### weather_data
 
-The weather dataset is acquired with [API](https://api.meteostat.net/#history)
+The weather dataset is acquired with [API](https://api.meteostat.net/#history).
 
 As the stations distribute across different cities in San Francisco Bay Area, we need to get the weather information of all these citites. We gengerated the weather dataset with the following steps:
 
@@ -75,9 +75,9 @@ The region dataset is small and complete. No action is needed.
 We created 2 separate buckets on AWS S3 for storing raw data and optimized data.
 
 1. **shuaishao-raw-datalake**
-   - This bucket has 4 folders storing trip data, station data, weathe data and region data respectively
+   - This bucket has 4 folders storing trip data, station data, weathe data and region data respectively.
 2. **shuaishao-bikeshare-datalake**
-   - This bucket is used to stored optimized datasets, we are using star schema with 1 fact table and 5 dimension table
+   - This bucket is used to store optimized datasets, we are using star schema with 1 fact table and 5 dimension tables.
 
 #### Schema
 
@@ -142,7 +142,7 @@ We created 2 separate buckets on AWS S3 for storing raw data and optimized data.
 
 #### Data Pipeline
 
-The pipelien include two DAGs.
+The pipelien includes two DAGs.
 
 
 
@@ -164,6 +164,7 @@ The pipelien include two DAGs.
   - Be able to know cycling route by popularity to help maintenance. For example, if we know that the route from A station to B station is the most popular route, we would consider:
     - Increasing bike at A station (increasing capacity)
     - Deploying more stations around A station
+    - Schedule a more frequent maintenance for station A
 - The optimized data can also be fetched and written into a database (e.g., MySQL, PostgreSQL, Neo4j)
   - The dataset could be written into Neo4j for visualizing cycling route (e.g., stations are nodes and routes are edges)
 
@@ -241,9 +242,7 @@ This pipeline extracts the data from raw data bucket, transforms it with Spark c
 2. The pipelines would be run on a daily basis by 7 am every day.
    - We would be able to doing by scheduling Airflow
 3. The database needed to be accessed by 100+ people.
-   - If the performance is down with more users, we could conside using Redshift.
-
-
+   - If the performance is down with more users, we could conside using an MPP based data warehouse like Redshift.
 
 ### Special thanks
 
